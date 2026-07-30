@@ -3,6 +3,7 @@ import './App.css'
 import Summary from './Summary'
 import TransactionForm from './TransactionForm'
 import TransactionList from './TransactionList'
+import CategoryChart from './CategoryChart'
 
 function App() {
   const [transactions, setTransactions] = useState([
@@ -104,6 +105,8 @@ function App() {
             handleDelete={handleDelete}
           />
         </div>
+
+        <CategoryChart transactions={transactions} />
       </main>
     </div>
 
