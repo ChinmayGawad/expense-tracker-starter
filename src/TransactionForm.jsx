@@ -1,11 +1,32 @@
-function TransactionForm({
-  description, setDescription,
-  amount, setAmount,
-  type, setType,
-  category, setCategory,
-  categories,
-  handleSubmit
-}) {
+import { useState } from 'react';
+
+const categories = ["food", "housing", "utilities", "transport", "entertainment", "salary", "other"];
+
+function TransactionForm({ onSubmit }) {
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState("");
+  const [type, setType] = useState("expense");
+  const [category, setCategory] = useState("food");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!description || !amount) return;
+
+    onSubmit({
+      id: Date.now(),
+      description,
+      amount: parseFloat(amount),
+      type,
+      category,
+      date: new Date().toISOString().split('T')[0],
+    });
+
+    setDescription("");
+    setAmount("");
+    setType("expense");
+    setCategory("food");
+  };
+
   return (
     <div className="add-transaction">
       <div className="form-header">
@@ -43,7 +64,7 @@ function TransactionForm({
 
         <div className="form-inputs-grid">
           {/* Description input */}
-          <div className="input-group flex-2">
+          <div className="input-group">
             <label className="input-label">Description</label>
             <div className="input-wrapper">
               <span className="input-icon">
@@ -63,7 +84,7 @@ function TransactionForm({
           </div>
 
           {/* Amount input */}
-          <div className="input-group flex-1">
+          <div className="input-group">
             <label className="input-label">Amount</label>
             <div className="input-wrapper">
               <span className="input-prefix">$</span>
@@ -80,7 +101,7 @@ function TransactionForm({
           </div>
 
           {/* Category select */}
-          <div className="input-group flex-1">
+          <div className="input-group">
             <label className="input-label">Category</label>
             <div className="input-wrapper select-wrapper">
               <select value={category} onChange={(e) => setCategory(e.target.value)}>
@@ -112,4 +133,3 @@ function TransactionForm({
 }
 
 export default TransactionForm;
-

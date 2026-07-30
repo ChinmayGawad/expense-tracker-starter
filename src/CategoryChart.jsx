@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
   PieChart, Pie, Cell,
   BarChart, Bar, XAxis, YAxis,
@@ -55,19 +55,25 @@ function CategoryLegend({ payload }) {
 function CategoryChart({ transactions }) {
   const [chartMode, setChartMode] = useState(CHART_MODES.BAR);
 
-  const categoryTotals = transactions
-    .filter((t) => t.type === 'expense')
-    .reduce((acc, t) => {
-      acc[t.category] = (acc[t.category] || 0) + t.amount;
-      return acc;
-    }, {});
+  const categoryTotals = useMemo(
+    () => transactions
+      .filter((t) => t.type === 'expense')
+      .reduce((acc, t) => {
+        acc[t.category] = (acc[t.category] || 0) + t.amount;
+        return acc;
+      }, {}),
+    [transactions]
+  );
 
-  const data = Object.entries(categoryTotals)
-    .map(([name, value]) => ({
-      name: name.charAt(0).toUpperCase() + name.slice(1),
-      value: Math.round(value * 100) / 100,
-    }))
-    .sort((a, b) => b.value - a.value);
+  const data = useMemo(
+    () => Object.entries(categoryTotals)
+      .map(([name, value]) => ({
+        name: name.charAt(0).toUpperCase() + name.slice(1),
+        value: Math.round(value * 100) / 100,
+      }))
+      .sort((a, b) => b.value - a.value),
+    [categoryTotals]
+  );
 
   const totalSpend = data.reduce((sum, d) => sum + d.value, 0);
 

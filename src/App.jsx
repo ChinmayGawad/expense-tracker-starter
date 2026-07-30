@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import './App.css'
 import Summary from './Summary'
 import TransactionForm from './TransactionForm'
@@ -17,43 +17,21 @@ function App() {
     { id: 8, description: "Netflix", amount: 15, type: "expense", category: "entertainment", date: "2025-01-10" },
   ]);
 
-  const [description, setDescription] = useState("");
-  const [amount, setAmount] = useState("");
-  const [type, setType] = useState("expense");
-  const [category, setCategory] = useState("food");
   const [filterType, setFilterType] = useState("all");
   const [filterCategory, setFilterCategory] = useState("all");
 
   const categories = ["food", "housing", "utilities", "transport", "entertainment", "salary", "other"];
 
-  // Fixed: amounts are now stored as numbers, no need for Number() conversion
-  let filteredTransactions = transactions;
-  if (filterType !== "all") {
-    filteredTransactions = filteredTransactions.filter(t => t.type === filterType);
-  }
-  if (filterCategory !== "all") {
-    filteredTransactions = filteredTransactions.filter(t => t.category === filterCategory);
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!description || !amount) return;
-
-    const newTransaction = {
-      id: Date.now(),
-      description,
-      amount: parseFloat(amount),
-      type,
-      category,
-      date: new Date().toISOString().split('T')[0],
-    };
-
-    setTransactions([...transactions, newTransaction]);
-    setDescription("");
-    setAmount("");
-    setType("expense");
-    setCategory("food");
-  };
+  const filteredTransactions = useMemo(() => {
+    let result = transactions;
+    if (filterType !== "all") {
+      result = result.filter(t => t.type === filterType);
+    }
+    if (filterCategory !== "all") {
+      result = result.filter(t => t.category === filterCategory);
+    }
+    return result;
+  }, [transactions, filterType, filterCategory]);
 
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this transaction?")) {
@@ -77,10 +55,6 @@ function App() {
           </div>
         </div>
 
-        <div className="header-status">
-          <span className="status-indicator"></span>
-          <span className="status-text">Live Sync</span>
-        </div>
       </header>
 
       {/* Main Container */}
@@ -89,12 +63,7 @@ function App() {
 
         <div className="dashboard-grid">
           <TransactionForm
-            description={description} setDescription={setDescription}
-            amount={amount} setAmount={setAmount}
-            type={type} setType={setType}
-            category={category} setCategory={setCategory}
-            categories={categories}
-            handleSubmit={handleSubmit}
+            onSubmit={(txn) => setTransactions(prev => [...prev, txn])}
           />
 
           <TransactionList
