@@ -1,38 +1,49 @@
 :root {
-  --font-heading: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
-  /* Color Palette */
-  --bg-dark: #090d16;
-  --card-bg: rgba(22, 30, 46, 0.7);
-  --card-bg-hover: rgba(30, 41, 62, 0.85);
-  --card-border: rgba(255, 255, 255, 0.08);
-  --card-border-glow: rgba(99, 102, 241, 0.3);
+  /* Warm dark palette — inspired by brass, ledgers, vault doors */
+  --bg-base: #0b0b12;
+  --bg-surface: #14141f;
+  --bg-elevated: #1a1a2b;
+  --bg-hover: #1f1f32;
 
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --text-subtle: #64748b;
+  --border: rgba(255, 255, 255, 0.06);
+  --border-light: rgba(255, 255, 255, 0.04);
 
-  --accent-income: #10b981;
-  --accent-income-bg: rgba(16, 185, 129, 0.12);
-  --accent-income-border: rgba(16, 185, 129, 0.25);
+  --text-primary: #eeedf4;
+  --text-muted: #8585a0;
+  --text-subtle: #555570;
 
-  --accent-expense: #f43f5e;
-  --accent-expense-bg: rgba(244, 63, 94, 0.12);
-  --accent-expense-border: rgba(244, 63, 94, 0.25);
+  /* Gold — reserved for the balance hero */
+  --gold: #c9a84c;
+  --gold-glow: rgba(201, 168, 76, 0.12);
+  --gold-border: rgba(201, 168, 76, 0.25);
 
-  --accent-primary: #6366f1;
-  --accent-primary-hover: #4f46e5;
-  --accent-primary-glow: rgba(99, 102, 241, 0.4);
+  /* Semantic — muted, calm */
+  --green: #45b881;
+  --green-bg: rgba(69, 184, 129, 0.08);
+  --green-border: rgba(69, 184, 129, 0.18);
 
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
+  --red: #e8587a;
+  --red-bg: rgba(232, 88, 122, 0.08);
+  --red-border: rgba(232, 88, 122, 0.18);
+
+  /* Interactive */
+  --indigo: #6c6cf0;
+  --indigo-hover: #5858d8;
+  --indigo-glow: rgba(108, 108, 240, 0.25);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
   --radius-full: 9999px;
 
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
-  --shadow-glow: 0 0 25px rgba(99, 102, 241, 0.15);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.45);
 }
 
 * {
@@ -43,35 +54,34 @@
 
 body {
   font-family: var(--font-body);
-  background-color: var(--bg-dark);
-  background-image: 
-    radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 85% 25%, rgba(16, 185, 129, 0.1) 0%, transparent 35%),
-    radial-gradient(circle at 50% 85%, rgba(244, 63, 94, 0.08) 0%, transparent 45%);
-  background-attachment: fixed;
-  color: var(--text-main);
+  background-color: var(--bg-base);
+  color: var(--text-primary);
   min-height: 100vh;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+::selection {
+  background: var(--gold);
+  color: var(--bg-base);
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.6);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-full);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.15);
 }
-
